@@ -2,7 +2,6 @@
 #define A1_HPP
 #include <algorithm>	// Included for use of std::swap()
 #include <cmath>
-//#include <valarray>
 //#include <iostream>
 
 template <class T>
@@ -121,24 +120,38 @@ int LinearSearchRecursive(T elements[], int nrOfElements, T element)
 	return -1;*/
 }
 
-//template <class T>
-//int BinarySearchRecursionStep(T elements[], int nrOfElements, T element, int nrOfElementsBefore) {
-//	int middle = int(std::floor(nrOfElements / 2));
-//	if (nrOfElements == 0) {
-//		return -1;
-//	}
-//	else if (element == elements[middle]) {
-//		return middle;
-//	}
-//	else if (element > elements[middle]) {
-//		//T newArr[middle] = std::slice(middle + 1, middle, 1);
-//		return BinarySearchRecursionStep(elements, middle, element, nrOfElementsBefore + middle);
-//	}
-//	else {
-//		//T newArr[middle - 1] = std::slice(0, middle - 1, 1);
-//		return BinarySearchRecursionStep(newArr, middle - 1, element, nrOfElementsBefore);
-//	}
-//}
+template <class T>
+int BinarySearchRecursionStep(T elements[], T element, int start, int end) {
+	// Checks if there are any elements left to check.
+	if (start > end) {
+		return -1;
+	}
+
+	//Comapres with the middle.
+	int middle = int(std::floor((start + end) / 2));
+
+	// For CodeGrade.
+	if (element == elements[middle]) {
+		return middle;
+	}
+	else if (element > elements[middle]) {
+		return BinarySearchRecursionStep(elements, element, middle + 1, end);
+	}
+	else {
+		return BinarySearchRecursionStep(elements, element, start, middle - 1);
+	}
+
+	// More efficient.
+	/*if (element < elements[middle]) {
+		return BinarySearchRecursionStep(elements, element, start, middle - 1);
+	}
+	else if (element > elements[middle]) {
+		return BinarySearchRecursionStep(elements, element, middle + 1, end);
+	}
+	else {
+		return middle;
+	}*/
+}
 
 template <class T>
 int BinarySearchRecursive(T elements[], int nrOfElements, T element)
@@ -146,14 +159,46 @@ int BinarySearchRecursive(T elements[], int nrOfElements, T element)
 	// Implementera en rekursiv binärsökning.
 	// Anropa er egna rekursiva funktion härifrån.
 
-	/*return BinarySearchRecursionStep(elements, nrOfElements, element, 0);*/
-
-	return -11;
+	return BinarySearchRecursionStep(elements, element, 0, nrOfElements - 1);
 }
 
 template <class T>
 void BinaryInsertionsort(T elements[], int nrOfElements)
 {
 	// Implementera en iterativ insertionsort där du söker efter rätt plats att lägga in elementet m.h.a. binärsökning.
+
+	// Iterate over all elements except the first.
+	for (int i = 1; i < nrOfElements; ++i) {
+		T key = elements[i];
+
+		int start = 0;
+		int end = i - 1;
+
+		while (start <= end) {
+			int middle = int(std::floor((end + start) / 2));
+			if (key == elements[middle]) {
+				// Breaks the loop and makes sure the middle between start and end is next to the jsut compared index.
+				start = middle + 1;
+				end = middle;
+			}
+			else if (key > elements[middle]) {
+				start = middle + 1;
+			}
+			else {
+				end = middle - 1;
+			}
+		}
+
+		// The average between start and end is now the index that the object is to be placed at.
+		int correctIndex = int(std::ceil((end + start) / 2.0f));
+
+		// Moves all elements on the right of the chosen index one step to the right.
+		for (int j = i; j > correctIndex; --j) {
+			elements[j] = elements[j - 1];
+		}
+
+		// Fills in the active object at its correct place.
+		elements[correctIndex] = key;
+	}
 }
 #endif

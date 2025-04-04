@@ -29,5 +29,10 @@ int main() {
 	/*std::cout << LinearSearchRecursive(cArr, 100, 32) << std::endl;
 	std::cout << LinearSearchRecursive(cArr, 100, 2) << std::endl;*/
 
-	std::cout << BinarySearchRecursive(cArr, 100, 20) << std::endl;
+	/*std::cout << BinarySearchRecursive(cArr, 100, 72) << std::endl;*/
+
+	BinaryInsertionsort(arr, 5);
+	for (int i = 0; i < 5; ++i) {
+		std::cout << arr[i] << ", ";
+	}
 }
