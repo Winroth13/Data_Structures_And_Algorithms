@@ -130,7 +130,7 @@
     <ClInclude Include="A1\A1.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="A1\main.cpp" />
+    <ClCompile Include="A1\test.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

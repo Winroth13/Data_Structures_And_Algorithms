@@ -1,8 +1,7 @@
 #ifndef A1_HPP
 #define A1_HPP
-#include <algorithm>	// Included for use of std::swap()
-#include <cmath>
-//#include <iostream>
+#include <algorithm> // Included for use of std::swap().
+#include <cmath> // Must be included for CodeGrade to have std::ceil().
 
 template <class T>
 int LinearSearch(T elements[], int nrOfElements, T element)
@@ -62,6 +61,7 @@ int BinarySearch(T elements[], int nrOfElements, T element)
 	while (start <= end) {
 		// Compares with the middle.
 		int middle = int(std::floor((end + start) / 2));
+		// More efficient.
 		/*if (element < elements[middle]) {
 			end = middle - 1;
 		}
@@ -71,7 +71,7 @@ int BinarySearch(T elements[], int nrOfElements, T element)
 		else {
 			return middle;
 		}*/
-		// For CodeGrade (Less effective),
+		// For CodeGrade (Less efficient).
 		if (element == elements[middle]) {
 			return middle;
 		}
@@ -128,18 +128,7 @@ int BinarySearchRecursionStep(T elements[], T element, int start, int end) {
 	}
 
 	//Comapres with the middle.
-	int middle = int(std::floor((start + end) / 2));
-
-	// For CodeGrade.
-	if (element == elements[middle]) {
-		return middle;
-	}
-	else if (element > elements[middle]) {
-		return BinarySearchRecursionStep(elements, element, middle + 1, end);
-	}
-	else {
-		return BinarySearchRecursionStep(elements, element, start, middle - 1);
-	}
+	int middle = (start + end) / 2; // This rounds down.
 
 	// More efficient.
 	/*if (element < elements[middle]) {
@@ -151,6 +140,17 @@ int BinarySearchRecursionStep(T elements[], T element, int start, int end) {
 	else {
 		return middle;
 	}*/
+
+	// For CodeGrade.
+	if (element == elements[middle]) {
+		return middle;
+	}
+	else if (element > elements[middle]) {
+		return BinarySearchRecursionStep(elements, element, middle + 1, end);
+	}
+	else {
+		return BinarySearchRecursionStep(elements, element, start, middle - 1);
+	}
 }
 
 template <class T>
@@ -175,9 +175,23 @@ void BinaryInsertionsort(T elements[], int nrOfElements)
 		int end = i - 1;
 
 		while (start <= end) {
-			int middle = int(std::floor((end + start) / 2));
+			int middle = (end + start) / 2; // This rounds down.
+			//if (key < elements[middle]) {
+			//	end = middle - 1;
+			//}
+			//else if (key > elements[middle]) {
+			//	start = middle + 1;
+			//}
+			//else {
+			//	// This makes sure that the active object will always be placed to the right of all previous identical elements
+			//	// and that the algorithm therefore is stable.
+			//	start = middle + 1;
+			//	end = middle + 1;
+			//}
+			// This is a less effective version for CodeGrade.
 			if (key == elements[middle]) {
 				// Breaks the loop and makes sure the middle between start and end is next to the jsut compared index.
+				// This is unstable, but what CodeGrade wants.
 				start = middle + 1;
 				end = middle;
 			}
@@ -189,7 +203,8 @@ void BinaryInsertionsort(T elements[], int nrOfElements)
 			}
 		}
 
-		// The average between start and end is now the index that the object is to be placed at.
+		// The average index between start and end will always be in the middle between the two elements that should be on either side of it.
+		// Therefore the active element is to be placed at [average + 0.5].
 		int correctIndex = int(std::ceil((end + start) / 2.0f));
 
 		// Moves all elements on the right of the chosen index one step to the right.
