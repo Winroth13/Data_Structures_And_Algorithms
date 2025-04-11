@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="A1\A1.hpp">
+    <ClInclude Include="A2\A2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="A1\test.cpp">
+    <ClCompile Include="A2\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
