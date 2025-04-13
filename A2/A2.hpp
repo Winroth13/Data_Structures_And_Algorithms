@@ -159,16 +159,16 @@ template <class T>
 int PartionHoare(T elements[], int start, int end)
 {
 	T pivot = elements[start];
-	int leftCompare = start - 1;
-	int rightCompare = end + 1;
+	int leftCompare = start;
+	int rightCompare = end;
 	while (true) {
-		do {
+		while (elements[leftCompare] < pivot) {
 			leftCompare++;
-		} while (elements[leftCompare] < pivot);
+		}
 
-		do {
+		while (elements[rightCompare] > pivot) {
 			rightCompare--;
-		} while (elements[rightCompare] > pivot);
+		}
 
 		if (leftCompare < rightCompare) {
 			std::swap(elements[leftCompare], elements[rightCompare]);
@@ -176,6 +176,8 @@ int PartionHoare(T elements[], int start, int end)
 		else {
 			return rightCompare;
 		}
+		leftCompare++;
+		rightCompare--;
 	}
 }
 
@@ -196,9 +198,46 @@ void QuicksortHoare(T elements[], int nrOfElements)
 }
 
 template <class T>
+int PartitionHoareImproved(T elements[], int start, int end)
+{
+	T pivot = elements[end];
+	int leftCompare = start;
+	int rightCompare = end - 1;
+	while (true) {
+		while (elements[leftCompare] < pivot) {
+			leftCompare++;
+		}
+
+		while (elements[rightCompare] > pivot) {
+			rightCompare--;
+		}
+
+		if (leftCompare < rightCompare) {
+			std::swap(elements[leftCompare], elements[rightCompare]);
+		}
+		else {
+			std::swap(elements[leftCompare], elements[end]);
+			return rightCompare + 1;
+		}
+		leftCompare++;
+		rightCompare--;
+	}
+}
+
+template <class T>
+void QuicksortHoareImprovedRecursive(T elements[], int start, int end)
+{
+	if (start < end) {
+		int pivot = PartitionHoareImproved(elements, start, end);
+		QuicksortHoareImprovedRecursive(elements, start, pivot - 1);
+		QuicksortHoareImprovedRecursive(elements, pivot + 1, end);
+	}
+}
+
+template <class T>
 void QuicksortHoareImproved(T elements[], int nrOfElements)
 {
-
+	QuicksortHoareImprovedRecursive(elements, 0, nrOfElements - 1);
 }
 
 template <class T>
@@ -213,16 +252,89 @@ int MedianOfThree(T elements[], int start, int end)
 }
 
 template <class T>
+int PartitionHoareImprovedMedian3(T elements[], int start, int end)
+{
+	int medianIndex = MedianOfThree(elements, start, end);
+	T pivot = elements[medianIndex];
+	std::swap(elements[medianIndex], elements[end]);
+	int leftCompare = start;
+	int rightCompare = end - 1;
+	while (true) {
+		while (elements[leftCompare] < pivot) {
+			leftCompare++;
+		}
+
+		while (elements[rightCompare] > pivot) {
+			rightCompare--;
+		}
+
+		if (leftCompare < rightCompare) {
+			std::swap(elements[leftCompare], elements[rightCompare]);
+		}
+		else {
+			std::swap(elements[leftCompare], elements[end]);
+			return rightCompare + 1;
+		}
+		leftCompare++;
+		rightCompare--;
+	}
+}
+
+template <class T>
+void QuicksortHoareImprovedRecursiveMedian3(T elements[], int start, int end)
+{
+	if (start < end) {
+		int pivot = PartitionHoareImprovedMedian3(elements, start, end);
+		QuicksortHoareImprovedRecursiveMedian3(elements, start, pivot - 1);
+		QuicksortHoareImprovedRecursiveMedian3(elements, pivot + 1, end);
+	}
+}
+
+template <class T>
 void QuicksortHoareImprovedMedian3(T elements[], int nrOfElements)
 {
+	QuicksortHoareImprovedRecursiveMedian3(elements, 0, nrOfElements - 1);
+}
 
+template <class T>
+void MaxHeapify(T elements[], int nrOfElements, int index)
+{
+	int left = 2 * index + 1;
+	int right = 2 * index + 2;
+	int largest = index;
+
+	if (left < nrOfElements && elements[left] > elements[largest]) {
+		largest = left;
+	}
+
+	if (right < nrOfElements && elements[right] > elements[largest]) {
+		largest = right;
+	}
+
+	if (largest != index) {
+		std::swap(elements[largest], elements[index]);
+		MaxHeapify(elements, nrOfElements, largest);
+	}
+}
+
+template <class T>
+void HeapSortRecursive(T elements[], int nrOfElements)
+{
+	if (nrOfElements > 1) {
+		std::swap(elements[0], elements[nrOfElements - 1]);
+		MaxHeapify(elements, nrOfElements - 1, 0);
+		HeapSortRecursive(elements, nrOfElements - 1);
+	}
 }
 
 
 template <class T>
 void Heapsort(T elements[], int nrOfElements)
 {
-
+	for (int i = (nrOfElements / 2) - 1; i >= 0; --i) {
+		MaxHeapify(elements, nrOfElements, i);
+	}
+	HeapSortRecursive(elements, nrOfElements);
 }
 
 #endif
