@@ -217,7 +217,7 @@ int PartitionHoareImproved(T elements[], int start, int end)
 		}
 		else {
 			std::swap(elements[leftCompare], elements[end]);
-			return rightCompare + 1;
+			return leftCompare;
 		}
 		leftCompare++;
 		rightCompare--;
@@ -273,7 +273,7 @@ int PartitionHoareImprovedMedian3(T elements[], int start, int end)
 		}
 		else {
 			std::swap(elements[leftCompare], elements[end]);
-			return rightCompare + 1;
+			return leftCompare;
 		}
 		leftCompare++;
 		rightCompare--;
@@ -326,7 +326,6 @@ void HeapSortRecursive(T elements[], int nrOfElements)
 		HeapSortRecursive(elements, nrOfElements - 1);
 	}
 }
-
 
 template <class T>
 void Heapsort(T elements[], int nrOfElements)
