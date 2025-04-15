@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="A2\A2.hpp" />
+    <ClCompile Include="A3\test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="A2\test.cpp" />
+    <ClInclude Include="A3\A3.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
