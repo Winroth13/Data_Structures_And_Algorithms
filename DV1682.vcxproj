@@ -19,10 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="A3\test.cpp" />
+    <ClInclude Include="B1\QueueArray.hpp" />
+    <ClInclude Include="B1\QueueStacks.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="A3\A3.hpp" />
+    <ClCompile Include="B1\QueueLinkedList.hpp" />
+    <ClCompile Include="B1\StackArray.hpp" />
+    <ClCompile Include="B1\StackLinkedList.hpp" />
+    <ClCompile Include="B1\test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
