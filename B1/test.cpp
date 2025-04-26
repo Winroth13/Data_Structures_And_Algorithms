@@ -1,4 +1,5 @@
 #include "QueueArray.hpp"
+#include "QueueStacks.hpp"
 #include <iostream>
 #include <stdexcept>
 
@@ -17,5 +18,7 @@ int main() {
 		std::cout << e.what() << std::endl;
 	}*/
 
-	
+	QueueStacks<int> myArr;
+
+	myArr.enqueue(1);
 }
