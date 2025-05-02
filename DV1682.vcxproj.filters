@@ -15,24 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="B1\QueueArray.hpp">
+    <ClInclude Include="B2\Heap.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="B1\QueueStacks.hpp">
+    <ClInclude Include="B2\IndexedList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B2\OrderedList.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="B1\test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="B1\StackArray.hpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="B1\QueueLinkedList.hpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="B1\StackLinkedList.hpp">
+    <ClCompile Include="B2\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
