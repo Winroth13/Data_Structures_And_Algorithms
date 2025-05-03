@@ -20,10 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="B2\Heap.hpp" />
+    <ClInclude Include="B2\HeapList.hpp" />
     <ClInclude Include="B2\IndexedList.hpp" />
     <ClInclude Include="B2\OrderedList.hpp" />
+    <ClInclude Include="B2\PriorityQueueHeap.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="B2\PriorityQueueOrderedList.hpp" />
     <ClCompile Include="B2\test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

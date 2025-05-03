@@ -24,9 +24,18 @@
     <ClInclude Include="B2\OrderedList.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="B2\PriorityQueueHeap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="B2\HeapList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="B2\test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="B2\PriorityQueueOrderedList.hpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
