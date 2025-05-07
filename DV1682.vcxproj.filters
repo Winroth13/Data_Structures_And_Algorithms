@@ -23,5 +23,11 @@
     <ClCompile Include="B3\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="B3\HashTable.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="B3\HashTableChaining.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

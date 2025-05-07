@@ -22,6 +22,8 @@
     <ClInclude Include="B3\BST.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="B3\HashTable.hpp" />
+    <ClCompile Include="B3\HashTableChaining.hpp" />
     <ClCompile Include="B3\test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
