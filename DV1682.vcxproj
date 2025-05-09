@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="B3\AVL.hpp" />
     <ClInclude Include="B3\BST.hpp" />
+    <ClInclude Include="B3\HashTable.hpp" />
+    <ClInclude Include="B3\HashTableDoubleHashing.hpp" />
+    <ClInclude Include="B3\HashTableLinearProbing.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="B3\HashTable.hpp" />
     <ClCompile Include="B3\HashTableChaining.hpp" />
     <ClCompile Include="B3\test.cpp" />
   </ItemGroup>

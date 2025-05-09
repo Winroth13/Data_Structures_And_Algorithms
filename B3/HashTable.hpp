@@ -31,18 +31,22 @@ HashTable::HashTable(int capacity)
 		this->data[i] = -1;
 	}
 }
+
 HashTable::~HashTable()
 {
 	delete[] this->data;
 }
+
 int HashTable::size() const
 {
 	return this->numberOfElements;
 }
+
 int* HashTable::getData() const
 {
 	return this->data;
 }
+
 void HashTable::insert(int element)
 {
 	int index = element % this->capacity;
@@ -51,6 +55,7 @@ void HashTable::insert(int element)
 	}
 	this->data[index] = element;
 }
+
 void HashTable::remove(int element)
 {
 	int index = element % this->capacity;
@@ -62,6 +67,7 @@ void HashTable::remove(int element)
 		throw std::invalid_argument("Cannot remove() non-existing element.");
 	}
 }
+
 int HashTable::find(int element)
 {
 	int index = element % this->capacity;

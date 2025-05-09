@@ -19,6 +19,9 @@ private:
 	int numberOfElements;
 	int capacity;
 
+	void rehash();
+	void insertData(Data* data);
+
 public:
 	HashTableChaining(int capacity = 7);
 	~HashTableChaining();
@@ -43,14 +46,6 @@ HashTableChaining::HashTableChaining(int capacity)
 }
 HashTableChaining::~HashTableChaining()
 {
-	for (int i = 0; i < this->capacity; ++i) {
-		Data* toRemove = elements[i];
-		while (toRemove != nullptr) {
-			Data* temp = toRemove;
-			toRemove = toRemove->next;
-			delete temp;
-		}
-	}
 	delete[] elements;
 }
 
@@ -75,26 +70,52 @@ int HashTableChaining::getIndex(int element) const
 	}
 }
 
-void HashTableChaining::insert(int element)
+void HashTableChaining::insertData(Data* data)
 {
-	int index = element % capacity;
+	int index = data->val % capacity;
 	if (this->elements[index] == nullptr) {
-		this->elements[index] = new Data(element);
+		this->elements[index] = data;
 	}
 	else {
 		Data* lastElement = this->elements[index];
 		while (lastElement->next != nullptr) {
 			lastElement = lastElement->next;
 		}
-		lastElement->next = new Data(element);
+		lastElement->next = data;
 	}
+}
+
+void HashTableChaining::rehash()
+{
+	Data** oldTable = elements;
+	int oldCapacity = this->capacity;
+	this->capacity = this->capacity * 2 - 1;
+	elements = new Data * [this->capacity];
+	Data* currentData;
+	for (int i = 0; i < oldCapacity; i++) {
+		currentData = oldTable[i];
+		while (currentData != nullptr) {
+			insertData(currentData);
+			currentData = currentData->next;
+		}
+	}
+	delete[] oldTable;
+}
+
+void HashTableChaining::insert(int element)
+{
+	if (this->numberOfElements == this->capacity) {
+		rehash();
+	}
+	Data* data = new Data(element);
+	insertData(data);
 	this->numberOfElements++;
 }
 
 void HashTableChaining::remove(int element)
 {
 	int index = element % capacity;
-	if (this->elements[index] == nullptr || this->elements[index]->val != element && this->elements[index]->next == nullptr) {
+	if (this->elements[index] == nullptr || (this->elements[index]->val != element && this->elements[index]->next == nullptr)) {
 		throw std::invalid_argument("Cannot remove() non-existing element.");
 	}
 	else if (this->elements[index]->val == element) {
