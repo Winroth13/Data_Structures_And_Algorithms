@@ -8,6 +8,9 @@
 #include <map>
 #include <stdexcept>
 #include <algorithm>
+#include <iostream>
+#include <stack>
+#include <queue>
 
 const int INFINIT_COST = INT_MAX;
 
@@ -36,7 +39,6 @@ public:
 	std::string depthFirstSearch(T from);
 	std::string breadthFirstSearch(T from);
 };
-
 
 #endif
 
@@ -71,10 +73,10 @@ template<class T>
 std::vector<T> Graph<T>::getAllNeighboursTo(T vertex)
 {
 	if (!this->adjList.contains(vertex)) {
-		throw std::invalid_argument("Cannot get neibours of non-exostent vertex.");
+		throw std::invalid_argument("Cannot get neighbours. of non-existent vertex.");
 	}
 	std::vector<T> neighbours;
-	for (auto edge : this->adjList[vertex]) {
+	for (std::pair<std::string, int> edge : this->adjList[vertex]) {
 		neighbours.push_back(edge.first);
 	}
 	std::sort(neighbours.begin(), neighbours.end());
@@ -84,13 +86,21 @@ std::vector<T> Graph<T>::getAllNeighboursTo(T vertex)
 template<class T>
 void Graph<T>::kruskals(std::vector<std::tuple<T, T, int>>& mst, int& totalCost)
 {
-
+	/*std::map<int, std::pair<T, T>> prioList;
+	T from, to;
+	int weight;
+	for (std::pair<T, std::map<T, int>> nodeAdj : this->adjList) {
+		from = nodeAdj.first;
+		for (std::pair<T, int> edge : nodeAdj.second) {
+			std::tie(to, weight) = edge;
+			std::cout << "From: " << from << " To: " << to << " Weight: " << std::to_string(weight) << std::endl;
+		}
+	}*/
 }
 
 template<class T>
 void Graph<T>::prims(std::vector<std::tuple<T, T, int>>& mst, int& totalCost)
 {
-
 }
 
 template<class T>
@@ -108,10 +118,61 @@ int Graph<T>::getNrOfEdges() const
 template <class T>
 std::string Graph<T>::depthFirstSearch(T from)
 {
-	return "";
+	if (!this->adjList.contains(from)) {
+		throw  std::invalid_argument("Cannot DFS from non-existent vertex.");
+	}
+	std::map<T, bool> hasVisited;
+	std::stack<T> toVisit;
+	toVisit.push(from);
+	std::string visitOrder;
+
+	while (!toVisit.empty()) {
+		T current = toVisit.top();
+		toVisit.pop();
+
+		if (!hasVisited[current]) {
+			visitOrder.append(current + ",");
+			hasVisited[current] = true;
+
+			std::vector<T> neighbours = this->getAllNeighboursTo(current);
+			for (auto rItter = neighbours.rbegin(); rItter != neighbours.rend(); rItter++) {
+				toVisit.push(*rItter);
+			}
+		}
+	}
+
+	visitOrder.pop_back();
+
+	return visitOrder;
 }
+
 template <class T>
 std::string Graph<T>::breadthFirstSearch(T from)
 {
-	return "";
+	if (!this->adjList.contains(from)) {
+		throw  std::invalid_argument("Cannot BFS from non-existent vertex.");
+	}
+
+	std::map<T, bool> hasVisited;
+	std::queue<T> toVisit;
+	toVisit.push(from);
+	std::string visitOrder;
+
+	while (!toVisit.empty()) {
+		T current = toVisit.front();
+		toVisit.pop();
+
+		if (!hasVisited[current]) {
+			visitOrder.append(current + ",");
+			hasVisited[current] = true;
+
+			for (T neighbour : this->getAllNeighboursTo(current)) {
+				toVisit.push(neighbour);
+			}
+		}
+	}
+
+	visitOrder.pop_back();
+
+	return visitOrder;
 }
