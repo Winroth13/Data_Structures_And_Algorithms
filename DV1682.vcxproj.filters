@@ -15,30 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="B3\BST.hpp">
+    <ClInclude Include="C1\Graph.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="B3\HashTable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="B3\HashTableLinearProbing.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="B3\HashTableDoubleHashing.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="B3\AVL.hpp">
+    <ClInclude Include="C1\DisjointSet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="B3\test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="B3\HashTableChaining.hpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="B3\AVL.cpp">
+    <ClCompile Include="C1\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
