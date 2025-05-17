@@ -11,6 +11,7 @@
 #include <iostream>
 #include <stack>
 #include <queue>
+#include "DisjointSets.hpp"
 
 const int INFINIT_COST = INT_MAX;
 
@@ -76,8 +77,8 @@ std::vector<T> Graph<T>::getAllNeighboursTo(T vertex)
 		throw std::invalid_argument("Cannot get neighbours. of non-existent vertex.");
 	}
 	std::vector<T> neighbours;
-	for (std::pair<std::string, int> edge : this->adjList[vertex]) {
-		neighbours.push_back(edge.first);
+	for (const auto& [otherVertex, weight] : this->adjList[vertex]) { // Type is std::pair<T, int>.
+		neighbours.push_back(otherVertex);
 	}
 	std::sort(neighbours.begin(), neighbours.end());
 	return neighbours;
@@ -86,21 +87,74 @@ std::vector<T> Graph<T>::getAllNeighboursTo(T vertex)
 template<class T>
 void Graph<T>::kruskals(std::vector<std::tuple<T, T, int>>& mst, int& totalCost)
 {
-	/*std::map<int, std::pair<T, T>> prioList;
-	T from, to;
-	int weight;
-	for (std::pair<T, std::map<T, int>> nodeAdj : this->adjList) {
-		from = nodeAdj.first;
-		for (std::pair<T, int> edge : nodeAdj.second) {
-			std::tie(to, weight) = edge;
-			std::cout << "From: " << from << " To: " << to << " Weight: " << std::to_string(weight) << std::endl;
+	DisjointSets<T> dSets(true, true);
+	std::multimap<int, std::pair<T, T>> prioList;
+	std::map<std::pair<T, T>, bool> hasIndluded;
+	totalCost = 0;
+
+	// Makes the nodes into sets and adds unique edges to prioList.
+	for (const auto& [from, paths] : this->adjList) { // Type is std::pair<T, std::pair<T, int>>.
+		dSets.makeSet(from);
+		for (const auto& [to, weight] : paths) { // Type is std::pair<T, int>.
+			std::pair<T, T> reversePair = std::make_pair(to, from);
+			if (!hasIndluded[reversePair]) {
+				std::pair<int, std::pair<T, T>> newNeighbour = std::make_pair(weight, std::make_pair(from, to));
+				prioList.insert(newNeighbour);
+				std::pair<T, T> correctPair = std::make_pair(from, to);
+				hasIndluded[correctPair] = true;
+			}
 		}
-	}*/
+	}
+
+	// Includes cheapest edges between sets.
+	// Maps are already sorted.
+	for (const auto& [weight, edge] : prioList) { // Type is std::pair<int, std::pair<T, T>>.
+		const auto& [from, to] = edge; // Type is std::pair<T, T>.
+		if (dSets.findSet(from) != dSets.findSet(to)) {
+			dSets.unionSet(from, to);
+			std::tuple<T, T, int> newEdge = std::make_tuple(from, to, weight);
+			mst.push_back(newEdge);
+			totalCost += weight;
+			if (mst.size() == this->nrOfVertices - 1) {
+				break;
+			}
+		}
+	}
 }
 
 template<class T>
 void Graph<T>::prims(std::vector<std::tuple<T, T, int>>& mst, int& totalCost)
 {
+	std::multimap<int, std::pair<T, T>> prioList;
+	std::map<T, bool> hasIncluded;
+	totalCost = 0;
+
+	// Starting neighbours.
+	auto& [start, neighbours] = *this->adjList.begin(); // Type is std::pair<T, std::map<T, int>>.
+	hasIncluded[start] = true;
+	for (const auto& [to, weight] : neighbours) {
+		std::pair<int, std::pair<T, T>> newNeighbour = std::make_pair(weight, std::make_pair(start, to));
+		prioList.insert(newNeighbour);
+	}
+
+	while (hasIncluded.size() < this->nrOfEdges && !prioList.empty()) {
+		auto [weight, edge] = *prioList.begin(); // Type is std::pair<int, std::pair<T, T>>.
+		auto& [from, to] = edge; // Type is std::pair<T, T>.
+		prioList.erase(prioList.begin());
+
+		if (!hasIncluded[to]) { // Creates default of 'false', if not already 'true'.
+			std::tuple<T, T, int> newEdge = std::make_tuple(from, to, weight);
+			mst.push_back(newEdge);
+			totalCost += weight;
+
+			for (const auto& [neighbour, weight] : this->adjList[to]) { // Type is std::pair<T, int>.
+				std::pair<int, std::pair<T, T>> newNeighbour = std::make_pair(weight, std::make_pair(to, neighbour));
+				prioList.insert(newNeighbour);
+			}
+
+			hasIncluded[to] = true;
+		}
+	}
 }
 
 template<class T>
@@ -126,11 +180,11 @@ std::string Graph<T>::depthFirstSearch(T from)
 	toVisit.push(from);
 	std::string visitOrder;
 
-	while (!toVisit.empty()) {
+	while (visitOrder.size() < 2 * this->nrOfVertices && !toVisit.empty()) {
 		T current = toVisit.top();
 		toVisit.pop();
 
-		if (!hasVisited[current]) {
+		if (!hasVisited[current]) { // Creates default of 'false', if not already 'true'.
 			visitOrder.append(current + ",");
 			hasVisited[current] = true;
 
@@ -158,11 +212,11 @@ std::string Graph<T>::breadthFirstSearch(T from)
 	toVisit.push(from);
 	std::string visitOrder;
 
-	while (!toVisit.empty()) {
+	while (visitOrder.size() < 2 * this->nrOfVertices && !toVisit.empty()) {
 		T current = toVisit.front();
 		toVisit.pop();
 
-		if (!hasVisited[current]) {
+		if (!hasVisited[current]) { // Creates default of 'false', if not already 'true'.
 			visitOrder.append(current + ",");
 			hasVisited[current] = true;
 

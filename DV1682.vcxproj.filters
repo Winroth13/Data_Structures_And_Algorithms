@@ -18,7 +18,7 @@
     <ClInclude Include="C1\Graph.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C1\DisjointSet.hpp">
+    <ClInclude Include="C1\DisjointSets.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

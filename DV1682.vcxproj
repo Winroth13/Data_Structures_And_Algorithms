@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C1\DisjointSet.hpp" />
+    <ClInclude Include="C1\DisjointSets.hpp" />
     <ClInclude Include="C1\Graph.hpp" />
   </ItemGroup>
   <ItemGroup>
