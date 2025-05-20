@@ -61,12 +61,14 @@ T DisjointSets<T>::findSet(T u)
 		return parent;
 	}
 	else {
+		T currentNode = u;
+		T currentParent = parent;
 		do {
-			u = parent;
-			auto& [nextParent, nextRank] = this->parentRank[parent]; // Type is std::pair<T, int>.
-			parent = nextParent;
-		} while (u != parent);
-		return u;
+			currentNode = currentParent;
+			auto& [nextParent, nextRank] = this->parentRank[currentParent]; // Type is std::pair<T, int>.
+			currentParent = nextParent;
+		} while (currentNode != currentParent);
+		return currentNode;
 	}
 }
 
