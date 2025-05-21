@@ -3,13 +3,13 @@
 #include <string>
 
 int main() {
-	/*Graph<std::string> graph;
+	Graph<std::string> graph;
 	graph.addEdge("A", "B", 1);
 	graph.addEdge("A", "C", 5);
 	graph.addEdge("B", "D", 3);
 	graph.addEdge("C", "D", 2);
 	graph.addEdge("B", "F", 1);
-	graph.addEdge("E", "F", 4);*/
+	graph.addEdge("E", "F", 4);
 
 	/*for (std::string neighbour : graph.getAllNeighboursTo("A")) {
 		std::cout << neighbour << std::endl;
@@ -18,12 +18,12 @@ int main() {
 	/*std::cout << graph.depthFirstSearch("A") << std::endl;
 	std::cout << graph.breadthFirstSearch("A") << std::endl;*/
 
-	//std::vector<std::tuple<std::string, std::string, int>> result;
-	//int cost;
-	//graph.kruskals(result, cost);
+	std::vector<std::tuple<std::string, std::string, int>> result;
+	int cost;
+	graph.kruskals(result, cost);
 	//graph.prims(result, cost);
 
-	DisjointSets<std::string> dSet(false, false);
+	/*DisjointSets<std::string> dSet(false, false);
 
 	std::string nodes[10] = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
 
@@ -43,5 +43,5 @@ int main() {
 		std::cout << current << std::endl;
 		std::cout << "Parent: " << dSet.getParent(current) << std::endl;
 		std::cout << "Set: " << dSet.findSet(current) << std::endl;
-	}
+	}*/
 }

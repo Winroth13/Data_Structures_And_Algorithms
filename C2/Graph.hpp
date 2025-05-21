@@ -232,3 +232,57 @@ std::string Graph<T>::breadthFirstSearch(T from)
 
 	return visitOrder;
 }
+
+template <class T>
+inline void Graph<T>::dijkstras(std::vector<std::tuple<T, T>>& shortestPath, int& totalCost, T fromVertex, T toVertex)
+{
+	// Perform Dijkstras shortest path algorithm
+	// Store resulting path edges from fromVertex to toVertex in shortestPath in the form (fromVertex, toVertex). NOTE THAT NO WEIGHT IN THE EDGE IS INCLUDED
+	// The total weight for the asked path is stored in totalCost.
+	if (!this->adjList.contains(fromVertex)) {
+		throw  std::invalid_argument("Cannot start dijkstras() from non-existent vertex.");
+	}
+	if (!this->adjList.contains(toVertex)) {
+		throw  std::invalid_argument("Cannot end dijkstras() at non-existent vertex.");
+	}
+
+	std::multimap<int, std::pair<T, T>> prioList;
+	std::unordered_map<T, T> previousHash;
+
+	// Starting neighbours.
+	/*auto [start, neighbours] = this->adjList[fromVertex];*/ // Type is std::pair<T, std::map<T, int>>.
+	previousHash[fromVertex] = fromVertex;
+	for (const auto& [to, weight] : this->adjList[fromVertex]) {
+		std::pair<int, std::pair<T, T>> newNeighbour = std::make_pair(weight, std::make_pair(fromVertex, to));
+		prioList.insert(newNeighbour);
+	}
+
+	while (previousHash.size() < this->nrOfEdges && !prioList.empty()) {
+		auto [inWeight, edge] = *prioList.begin(); // Type is std::pair<int, std::pair<T, T>>.
+		auto& [from, current] = edge; // Type is std::pair<T, T>.
+		prioList.erase(prioList.begin());
+
+		if (!previousHash.contains(current)) {
+			previousHash[current] = from;
+
+			if (current == toVertex) {
+				totalCost = inWeight;
+				T& previous = previousHash[current];
+				while (previous != current) {
+					std::tuple<T, T> previousStep = std::make_tuple(previous, current);
+					shortestPath.emplace(shortestPath.begin(), previousStep);
+					current = previous;
+					previous = previousHash[current];
+				}
+				return;
+			}
+
+			for (const auto& [neighbour, outWeight] : this->adjList[current]) { // Type is std::pair<T, int>.
+				std::pair<int, std::pair<T, T>> newNeighbour = std::make_pair(inWeight + outWeight, std::make_pair(current, neighbour));
+				prioList.insert(newNeighbour);
+			}
+		}
+	}
+
+	throw std::invalid_argument("Cannot dijkstras() between disjoint sets.");
+}
