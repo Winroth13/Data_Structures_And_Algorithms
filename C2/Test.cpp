@@ -10,11 +10,13 @@ int main() {
 	graph.addEdge("C", "D", 10);
 	graph.addEdge("B", "F", 1);
 	graph.addEdge("E", "F", 4);
-	
+
 	std::vector<std::tuple<std::string, std::string>> result;
 	int cost;
 	graph.dijkstras(result, cost, "A", "D");*/
 
 	Huffman hf;
 	hf.build("abcdeabca");
+	std::string code = hf.encode("aabbccddee");
+	std::cout << hf.decode(code);
 }

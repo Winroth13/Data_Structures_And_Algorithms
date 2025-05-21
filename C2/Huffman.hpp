@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <vector>
-#include <memory>
+#include <map>
 
 class Huffman
 {
@@ -19,9 +19,11 @@ private:
 
 		Node(std::string data = "", Node* lChild = nullptr, Node* rChild = nullptr) { this->data = data; this->lChild = lChild; this->rChild = rChild; }
 	};
-	
+
 	Node* decodingTree;
 	std::unordered_map<std::string, std::string> encodingTable;
+
+	void generateTableRecursive(const Node* currentNode, std::string route);
 public:
 	Huffman();
 	~Huffman() = default;
@@ -41,13 +43,48 @@ std::string Huffman::encode(std::string data)
 {
 	// Encodes the incoming text string into a binary string
 	// eg, output should be "010100011000111"
-	return "";
+	std::string output;
+
+	for (char character : data) {
+		std::string charString{ character };
+		output.append(encodingTable[charString]);
+	}
+
+	return output;
 }
 
 std::string Huffman::decode(std::string bits)
 {
 	// Decodes an incoming bit string into a text string
-	return "";
+	std::string output;
+	Node* walker = decodingTree;
+
+	for (char bit : bits) {
+		if (bit == '0') {
+			walker = walker->lChild;
+		}
+		else {
+			walker = walker->rChild;
+		}
+
+		if (walker->data != "") {
+			output.append(walker->data);
+			walker = decodingTree;
+		}
+	}
+
+	return output;
+}
+
+void Huffman::generateTableRecursive(const Node* currentNode, std::string route)
+{
+	if (currentNode->data != "") {
+		this->encodingTable[currentNode->data] = route;
+	}
+	else {
+		generateTableRecursive(currentNode->lChild, route + "0");
+		generateTableRecursive(currentNode->rChild, route + "1");
+	}
 }
 
 void Huffman::build(std::string data)
@@ -66,7 +103,7 @@ void Huffman::build(std::string data)
 			frequencies[charString]++;
 		}
 	}
-	
+
 	std::multimap<int, Node*> nodeMap;
 	for (const auto& [symbol, frequency] : frequencies) { // Type is std::pair<std::string, int>.
 		std::pair<int, Node*> newNode = std::make_pair(frequency, new Node(symbol));
@@ -82,13 +119,13 @@ void Huffman::build(std::string data)
 		std::pair<int, Node*> newNode = std::make_pair(lowFrequency + highFrequency, new Node("", lowNode, highNode));
 		nodeMap.insert(newNode);
 	}
-	
+
 	const auto& [totalFrequency, rootNode] = *nodeMap.begin();
 
 	this->decodingTree = rootNode;
 
 	// Creating encoding table.
-
+	generateTableRecursive(rootNode, "");
 }
 
 #endif
