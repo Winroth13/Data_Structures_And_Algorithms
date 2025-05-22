@@ -250,7 +250,6 @@ inline void Graph<T>::dijkstras(std::vector<std::tuple<T, T>>& shortestPath, int
 	std::unordered_map<T, T> previousHash;
 
 	// Starting neighbours.
-	/*auto [start, neighbours] = this->adjList[fromVertex];*/ // Type is std::pair<T, std::map<T, int>>.
 	previousHash[fromVertex] = fromVertex;
 	for (const auto& [to, weight] : this->adjList[fromVertex]) {
 		std::pair<int, std::pair<T, T>> newNeighbour = std::make_pair(weight, std::make_pair(fromVertex, to));
