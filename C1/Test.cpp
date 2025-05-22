@@ -20,8 +20,8 @@ int main() {
 
 	std::vector<std::tuple<std::string, std::string, int>> result;
 	int cost;
-	graph.kruskals(result, cost);
-	//graph.prims(result, cost);
+	//graph.kruskals(result, cost);
+	graph.prims(result, cost);
 
 	/*DisjointSets<std::string> dSet(false, false);
 
