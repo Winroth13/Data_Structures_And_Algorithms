@@ -18,6 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C2\Test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C2\DisjointSets.hpp" />
+    <ClInclude Include="C2\Graph.hpp" />
+    <ClInclude Include="C2\Huffman.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

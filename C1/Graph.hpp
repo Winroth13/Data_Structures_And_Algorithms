@@ -139,7 +139,7 @@ void Graph<T>::prims(std::vector<std::tuple<T, T, int>>& mst, int& totalCost)
 		prioList.insert(newNeighbour);
 	}
 
-	while (hasIncluded.size() < this->nrOfEdges / 2 && !prioList.empty()) {
+	while (hasIncluded.size() < this->nrOfVertices && !prioList.empty()) {
 		auto [weight, edge] = *prioList.begin(); // Type is std::pair<int, std::pair<T, T>>.
 		auto& [from, to] = edge; // Type is std::pair<T, T>.
 		prioList.erase(prioList.begin());
